@@ -110,7 +110,7 @@ public class BaseScreen2 extends JFrame implements ActionListener, MouseListener
 
 @Override
 public void mouseClicked(MouseEvent arg0) {
-	// TODO Auto-generated method stub
+
 	
 }
 
