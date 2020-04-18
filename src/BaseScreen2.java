@@ -35,7 +35,7 @@ public class BaseScreen2 extends JFrame implements ActionListener, MouseListener
    private JTextField 	tf1;
    private JLabel 		label; 
       
-   // constructor
+   
    BaseScreen2(String title)
    {
   
