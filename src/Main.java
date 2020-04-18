@@ -19,21 +19,35 @@ public class Main
 	static int hotY = 0;
 	static int hotN = 0;
 	static int normalY = 0;
-	static int coldY = 0;
-	static int cooly = 0;
-	static int achesy = 0;
-	static int coughy = 0;
-	static int sorethroaty = 0;
 	static int normalN = 0;
+	static int coldY = 0;
 	static int coldN = 0;
+	static int coolY = 0;
 	static int coolN = 0;
-	static int achesN = 0;
+	
+	static int achesYy = 0;
+	static int achesYn = 0;
+	static int achesNn = 0;
+	static int achesNy = 0;
+	
+	static int coughY = 0;
+	static int coughYn = 0;
 	static int coughN = 0;
+	static int coughNy = 0;
+	
+	static int sorethroatY = 0;
 	static int sorethroatN = 0;
-	static int dangerzone = 0;
+	static int sorethroatYn = 0;
+	static int sorethroatNy = 0;
+	
+	static int dangerzoneY = 0;
 	static int dangerzoneN = 0;
+	static int dangerzoneYn = 0;
+	static int dangerzoneNy = 0;
+	
 	static double covidY = 0;
 	static double covidN = 0;
+	
 	static double probability = 0;
 
 	
@@ -50,6 +64,7 @@ public class Main
 	
 	public static int getRows() {
 		int datarows = 0;
+		iteration=1;
 		try (BufferedReader br = new BufferedReader(new FileReader("src/MLdata.csv"));)
 		{
 			String line;
@@ -100,6 +115,7 @@ public class Main
 				if(!(count>=3)) {
 					count++;
 					line=br.readLine();
+					System.out.println(line);
 					continue;
 				}
 				
@@ -115,7 +131,7 @@ public class Main
 								
 				System.out.println(row);
 				System.out.println(line);
-				System.out.println(data[0] + " " + data[1]);
+				
 				row++;
 				 
 			}
@@ -132,8 +148,102 @@ public class Main
 }
 	public static void processData(String[][] datad)
 	{
-		System.out.println(datad[0][0]+datad[0][1]+datad[0][2]+datad[0][3]+datad[0][4]+datad[0][5]);
-		System.out.println(datad[1][0]+datad[1][1]+datad[1][2]+datad[1][3]+datad[1][4]+datad[1][5]);
+		
+		for(int i = 0;i<datad.length;i++)
+		{
+
+			if(datad[i][5].equalsIgnoreCase("yes"))
+			{
+				covidY++;
+				if(datad[i][0].equalsIgnoreCase("hot")){
+					hotY++;
+				}
+				if(datad[i][0].equalsIgnoreCase("normal")){
+					normalY++;
+				}
+				if(datad[i][0].equalsIgnoreCase("cold")){
+					coldY++;
+				}
+				if(datad[i][0].equalsIgnoreCase("cool")){
+					coolY++;
+				}
+				if(datad[i][1].equalsIgnoreCase("no")){
+					achesYn++;
+				}
+				if(datad[i][1].equalsIgnoreCase("yes")){
+					achesYy++;
+				}
+				if(datad[i][2].equalsIgnoreCase("no")) {
+					coughYn++;
+				}
+				if(datad[i][2].equalsIgnoreCase("yes")) {
+					coughY++;
+				}
+				if(datad[i][3].equalsIgnoreCase("yes")) {
+					sorethroatY++;
+				}
+				if(datad[i][3].equalsIgnoreCase("no")) {
+					sorethroatYn++;
+				}
+				if(datad[i][4].equalsIgnoreCase("no")) {
+					dangerzoneYn++;
+				}
+				if(datad[i][4].equalsIgnoreCase("yes")) {
+					dangerzoneY++;
+				}
+			}
+			else if(datad[i][5].equalsIgnoreCase("no")) {
+				covidN++;
+				if(datad[i][0].equalsIgnoreCase("hot")){
+					hotN++;
+				}
+				if(datad[i][0].equalsIgnoreCase("normal")){
+					normalN++;
+				}
+				if(datad[i][0].equalsIgnoreCase("cold")){
+					coldN++;
+				}
+				if(datad[i][0].equalsIgnoreCase("cool")){
+					coolN++;
+				}
+				if(datad[i][1].equalsIgnoreCase("no")){
+					achesNn++;
+				}
+				if(datad[i][1].equalsIgnoreCase("yes")){
+					achesNy++;
+				}
+				if(datad[i][2].equalsIgnoreCase("no")) {
+					coughN++;
+				}
+				if(datad[i][2].equalsIgnoreCase("yes")) {
+					coughNy++;
+				}
+				if(datad[i][3].equalsIgnoreCase("no")) {
+					sorethroatN++;
+				}
+				if(datad[i][3].equalsIgnoreCase("yes")) {
+					sorethroatNy++;
+				}
+				if(datad[i][4].equalsIgnoreCase("no")) {
+					dangerzoneN++;
+				}
+				if(datad[i][4].equalsIgnoreCase("yes")) {
+					dangerzoneNy++;
+				}
+			}
+			
+			
+		}
+			System.out.println("Hot Yes" + hotY + "Aches Yes" + achesYy + "Cough Yes" + coughY + "Sore Throat Yes" + sorethroatY + "dz yes" + dangerzoneY);
+			System.out.println("Hot No" + hotN + "Aches No" + achesNy + "Cough No" + coughNy + "Sore Throat No" + sorethroatNy + "dz no" + dangerzoneNy);
+
+			double prob = hotY/covidY * achesYy/covidY * coughY/covidY * sorethroatY/covidY * dangerzoneY/covidY * covidY/datad.length;
+			double probN = hotN/covidN*achesNy/covidN*coughNy/covidN*sorethroatNy/covidN*dangerzoneNy/covidN*covidN/datad.length;
+			double probability = prob/(prob+probN);
+			double probabilityN = probN/(prob+probN);
+
+			System.out.println(probabilityN);
+			
 	}
 }
 
