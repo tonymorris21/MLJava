@@ -28,14 +28,17 @@ import javax.swing.border.EmptyBorder;
 public class BaseScreen2 extends JFrame implements ActionListener, MouseListener  
 {
 
-
+   /* attributes:
+    note: it's good to set up the GUI components as class attributes , 
+    instead of in the constructor so that they are visible/ usable in all method
+   */	
    private JPanel contentPane;
    private JButton 		button1;
    private JButton		button2;
    private JTextField 	tf1;
    private JLabel 		label; 
       
-   
+   // constructor
    BaseScreen2(String title)
    {
   
@@ -110,7 +113,7 @@ public class BaseScreen2 extends JFrame implements ActionListener, MouseListener
 
 @Override
 public void mouseClicked(MouseEvent arg0) {
-
+	// TODO Auto-generated method stub
 	
 }
 
