@@ -14,6 +14,11 @@ public class Control {
 	public static void main(String[] args) 
 	{
 	    
+		int datarows = FileProcessing.getRows();		
+		String[][] datad = FileProcessing.getData(datarows);
+		FileProcessing.processData(datad);
+		
+		FileProcessing.testData();
 		BaseScreen2 myScreen = new BaseScreen2("Hello");
 		myScreen.setVisible(true);
 	    
