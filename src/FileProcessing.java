@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 public class FileProcessing 
 {
@@ -83,7 +84,7 @@ public class FileProcessing
 	
 }
 	
-	
+	// puts data into datad string 2d array 
 	public static String[][] getData(int datarows)
 	{
 		
@@ -95,6 +96,7 @@ public class FileProcessing
 		{
 			String line;
 			count=0;
+			//skips the first 3 lines of the csv
 			while (row != datarows) {
 				if(!(count>=3)) {
 					count++;
@@ -103,7 +105,7 @@ public class FileProcessing
 					continue;
 				}
 				
-				
+				//stores data in datad[][]
 				line=br.readLine();
 				String [] data = line.split(",");
 				datad[row][0] = data[0];
@@ -129,6 +131,7 @@ public class FileProcessing
 		return datad;
 	
 }
+	//finds the frequencies of the various column labels
 	public static void processData(String[][] datad)
 	{
 		
@@ -217,26 +220,28 @@ public class FileProcessing
 			
 			
 		}
-			System.out.println("Hot Yes" + coldY + "Aches Yes" + achesYy + "Cough Yes" + coughY + "Sore Throat Yes" + sorethroatY + "dz yes" + dangerzoneY);
-			System.out.println("Hot No" + hotN + "Aches No" + achesNy + "Cough No" + coughNy + "Sore Throat No" + sorethroatNy + "dz no" + dangerzoneNy);
+			coldY = 1;
+			DecimalFormat format = new DecimalFormat("0.#####");
+			double prob = coldY/covidY* achesYn/covidY * coughYn/covidY * sorethroatYn/covidY * dangerzoneYn/covidY *covidY/datad.length;
+			double probN = coldN/covidN*achesNn/covidN*coughN/covidN*sorethroatN/covidN*dangerzoneN/covidN*covidN/datad.length;
+			System.out.println(format.format(prob));
+			double probandn = prob+probN;
+			System.out.println("ColdY" + coldY + "achesYn" + achesYn + "coughYn" + coughYn + "sorethroatYn" + sorethroatYn + "dangerzoneYn" + dangerzoneYn);
+			double probabilit1y = probN/probandn;
+			System.out.println(format.format(probN));
+			System.out.println(format.format(probabilit1y));
 
-			double prob = coldY/covidY * achesYy/covidY * coughY/covidY * sorethroatY/covidY * dangerzoneY/covidY * covidY/datad.length;
-			System.out.println(prob);
-			double probN = coldN/covidN*achesNy/covidN*coughNy/covidN*sorethroatNy/covidN*dangerzoneNy/covidN*covidN/datad.length;
-			System.out.println(probN);
-			probability = prob/(prob+probN);
-			double probabilityN = probN/(prob+probN);
 			datacount = datad.length;
-			System.out.println(probability);
 			
 	}
 	
+	//gets the testdata and forwards the data onto DataProcessing.processResults and then DataProcessing.processData
 	public static void testData() {
 		int row = 2;
 		int correct = 0;
 		int incorrect = 0;
 		int count = 0;
-		System.out.println(testrows);
+		
 		String dataTest[][] = new String[testrows+1][6];
 		try (BufferedReader br = new BufferedReader(new FileReader("src/MLdata.csv")))
 		{
@@ -255,7 +260,7 @@ public class FileProcessing
 				
 				
 				line=br.readLine();
-				System.out.println(line);
+				//stores data in dataTest[]
 				
 				String [] data = line.split(",");
 				
@@ -315,7 +320,7 @@ public class FileProcessing
 				if("yes".equals(dataTest[i][4])) {
 						dangerzone = "yes";
 				}
-				System.out.println(temp + aches + cough + throat +dangerzone);
+			
 				DataProcessing.processResults(temp, aches, cough, throat, dangerzone);
 				DataProcessing.processData();
 				if(DataProcessing.covidNo>DataProcessing.covidYes)
@@ -341,8 +346,7 @@ public class FileProcessing
 					
 				}
 				}
-			System.out.println(incorrect);
-			System.out.println(correct);
+
 			int total = incorrect+correct;
 			testprob = ((double)correct / total*100);
 			

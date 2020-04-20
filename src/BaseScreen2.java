@@ -1,21 +1,8 @@
-
-
-/*******************************************************
- * 
- * 
- *   Lab 5: GUI solution 
- * 
- * 
- *******************************************************/
-import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
-
-import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -25,30 +12,21 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
-
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
-
 import javax.swing.JTextArea;
 
 public class BaseScreen2 extends JFrame implements ActionListener, MouseListener  
 {
 
-
-   private JPanel contentPane;
-   private JButton 		button1;
-   private JButton		button2;
-   private JTextField 	tf1;
-   private JLabel 		label; 
-   static String Aches;
-   static String Temp;
-   static String Cough;
-   static String Dangerzone;
-   static String Throat;
-      
-   // constructor
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	
+	static String Aches;
+	static String Temp;
+	static String Cough;
+	static String Dangerzone;
+	static String Throat;
+   
    BaseScreen2(String title)
    {
 	   DecimalFormat df = new DecimalFormat ("##.00");
@@ -62,8 +40,6 @@ public class BaseScreen2 extends JFrame implements ActionListener, MouseListener
 		JLabel lblTemperature = new JLabel("Temperature :");
 		lblTemperature.setBounds(101, 11, 92, 14);
 		contentPane.add(lblTemperature);
-		
-
 		
 		JLabel lblAches = new JLabel("Aches :");
 		lblAches.setBounds(133, 36, 46, 14);
@@ -129,11 +105,13 @@ public class BaseScreen2 extends JFrame implements ActionListener, MouseListener
 			dangerzoneBg.add(rdbtnYes_3);
 			dangerzoneBg.add(rdbtnNo_3);
 			dangerzoneBg.clearSelection();
-			JComboBox<String> comboBox = new JComboBox<String>();
+		JComboBox<String> comboBox = new JComboBox<String>();
 			comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Hot", "Normal", "Cool", "Cold"}));
 			comboBox.setBounds(203, 8, 74, 20);
 			contentPane.add(comboBox);
-			JButton btnSubmit = new JButton("Test Symptoms\r\n");
+		JButton btnSubmit = new JButton("Submit Symptoms");
+			btnSubmit.setBounds(143, 152, 146, 32);
+			contentPane.add(btnSubmit);
 			btnSubmit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if(dangerzoneBg.getSelection()==null || throatBg.getSelection()==null || coughBg.getSelection()==null || acheBg.getSelection()==null) {
@@ -207,42 +185,54 @@ public class BaseScreen2 extends JFrame implements ActionListener, MouseListener
 					
 					DataProcessing.processResults(Temp, Aches, Cough, Throat, Dangerzone);
 					DataProcessing.processData();
-					System.out.println(DataProcessing.probabilityNo);
+					//calculates whether the probability the patient doesnt have coronavirus> the probability the patient has coronavirus
 					if(DataProcessing.covidNo>DataProcessing.covidYes)
 					{
 						double probability = DataProcessing.covidNo*100/1;
 						JOptionPane.showMessageDialog(contentPane,
-								
-							    "Patient does not have covid-19\n Probability = "+df.format(probability)+ "%",
-							    "% No covid-19",
-							    JOptionPane.INFORMATION_MESSAGE);
+							"Patient does not have covid-19\n Probability = "
+							+df.format(probability)+ "%","% No covid-19",
+							JOptionPane.INFORMATION_MESSAGE);
 					}
+					//calculates whether the probability the patient has coronavirus> the probability the patient doesnt have coronavirus
 					if(DataProcessing.covidYes>DataProcessing.covidNo)
 					{
 						double probability = DataProcessing.covidYes*100/1;
 						JOptionPane.showMessageDialog(contentPane,
-								
-							    "Patient has covid-19\n Probability = "+ df.format(probability)+ "%",
-							    " Has covid-19",
-							    JOptionPane.INFORMATION_MESSAGE);
-					}
-					}
+						"Patient has covid-19\n Probability = "
+						+df.format(probability)+ "%"," Has covid-19",
+						JOptionPane.INFORMATION_MESSAGE);
+				}
+				}
+			}
+		});
+			
+			
+		JTextArea textArea = new JTextArea();
+			textArea.setBounds(121, 217, 224, 22);
+		contentPane.add(textArea);
+			
+		
+		
+			
+		JButton btnNewButton = new JButton("Reset");
+			btnNewButton.setBounds(301, 152, 123, 32);
+			contentPane.add(btnNewButton);
+			
+			JButton btnNewButton_1 = new JButton("Test Model");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) 
+				{
+					FileProcessing.testData();
+					//displays accuracy of program.
+					String text = "Program is " + df.format(FileProcessing.testprob) + "% accurate";
+					textArea.setText(String.valueOf(text));
+					btnNewButton_1.setEnabled(false); 
+					
 				}
 			});
-			
-			btnSubmit.setBounds(166, 136, 123, 32);
-			contentPane.add(btnSubmit);
-			
-			JTextArea textArea = new JTextArea();
-			textArea.setBounds(121, 217, 224, 22);
-			contentPane.add(textArea);
-			
-			String text = "Program is " + df.format(FileProcessing.testprob) + "% accurate";
-			textArea.setText(String.valueOf(text));
-			
-			JButton btnNewButton = new JButton("Reset");
-			btnNewButton.setBounds(166, 174, 123, 32);
-			contentPane.add(btnNewButton);
+			btnNewButton_1.setBounds(10, 152, 123, 32);
+			contentPane.add(btnNewButton_1);
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
@@ -254,40 +244,10 @@ public class BaseScreen2 extends JFrame implements ActionListener, MouseListener
 				}
 			});
    }
-
-@Override
-public void mouseClicked(MouseEvent arg0) {
-	// TODO Auto-generated method stub
-	
-}
-
-@Override
-public void mouseEntered(MouseEvent arg0) {
-	// TODO Auto-generated method stub
-	
-}
-
-@Override
-public void mouseExited(MouseEvent arg0) {
-	// TODO Auto-generated method stub
-	
-}
-
-@Override
-public void mousePressed(MouseEvent arg0) {
-	// TODO Auto-generated method stub
-	
-}
-
-@Override
-public void mouseReleased(MouseEvent arg0) {
-	// TODO Auto-generated method stub
-	
-}
-
-@Override
-public void actionPerformed(ActionEvent arg0) {
-	// TODO Auto-generated method stub
-	
-}
+public void mouseClicked(MouseEvent arg0) {}
+public void mouseEntered(MouseEvent arg0) {}
+public void mouseExited(MouseEvent arg0) {}
+public void mousePressed(MouseEvent arg0) {}
+public void mouseReleased(MouseEvent arg0) {}
+public void actionPerformed(ActionEvent e) {}
 }

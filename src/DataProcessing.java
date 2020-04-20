@@ -1,4 +1,4 @@
-import java.math.BigDecimal;
+
 
 public class DataProcessing 
 {
@@ -8,19 +8,22 @@ public class DataProcessing
 	static int throat;
 	static int dangerzone;
 	
-	static int tempN;
-	static int achesN;
-	static int coughN;
-	static int throatN;
-	static int dangerzoneN;
-	static double probabilityYes=0;
-	static double probabilityNo=0;
-	static double probability=0;
+	private static int tempN;
+	private static int achesN;
+	private static int coughN;
+	private static int throatN;
+	private static int dangerzoneN;
+	
+
 	static double covidNo = 0;
 	static double covidYes = 0;
+	
+	//retrieves results from jframe option form and this method is also used for processing the test rows
 	public static void processResults(String Temp, String Aches, String Cough, String Throat, String Dangerzone)
 	{
-		System.out.println(Temp);
+		
+		//gets frequencies for each of the selected options
+
 		if(Aches=="yes")
 		{
 			aches=FileProcessing.achesYy;
@@ -65,28 +68,30 @@ public class DataProcessing
 		if(Aches=="no")
 		{
 			aches=FileProcessing.achesYn;
-			achesN = FileProcessing.achesNy;
+			achesN = FileProcessing.achesNn;
 		}
 		if(Cough=="no")
 		{
 			cough=FileProcessing.coughYn;
-			coughN = FileProcessing.coughNy;
+			coughN = FileProcessing.coughN;
 		}
 		if(Throat=="no")
 		{
 			throat=FileProcessing.sorethroatYn;
-			throatN=FileProcessing.sorethroatNy;
+			throatN=FileProcessing.sorethroatN;
 		}
 		if(Dangerzone=="no")
 		{
 			dangerzone=FileProcessing.dangerzoneYn;
-			dangerzoneN=FileProcessing.dangerzoneNy;
+			dangerzoneN=FileProcessing.dangerzoneN;
 		}
 		
 		
 	}
+	//calculates the probabilities
 	public static void processData() {
-		
+		double probabilityYes=0;
+		double probabilityNo=0;
 
 		probabilityYes = temp/FileProcessing.covidY * aches/FileProcessing.covidY * cough/FileProcessing.covidY * throat/FileProcessing.covidY * dangerzone/FileProcessing.covidY*FileProcessing.covidY/FileProcessing.datacount;
 		probabilityNo = tempN/FileProcessing.covidN * achesN/FileProcessing.covidN * coughN/FileProcessing.covidN * throatN/FileProcessing.covidN * dangerzoneN/FileProcessing.covidN*FileProcessing.covidN/FileProcessing.datacount;
