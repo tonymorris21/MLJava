@@ -1,5 +1,0 @@
-Engineer, 
-Lawyer, 
-Doctor, 
-Carpenter, 
-Nurse
