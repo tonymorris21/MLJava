@@ -17,3 +17,5 @@ Has Covid19
 
 70% of this data is used to train a nuave bayes classifier model
 the remaining data is then used to test the accuracy of the model.
+
+The user can use the interface to input patient symptpoms to get a probability of covid infection.
