@@ -7,7 +7,7 @@ Machine learning java program
 **Not intened for actual medical purposes**
 
 Uses a set of data with the following parameters:
-(Yes/N0)
+(Yes/No)
 Temperature,	
 Aches,	
 Cough,	
